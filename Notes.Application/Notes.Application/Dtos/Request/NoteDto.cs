@@ -1,6 +1,6 @@
 ﻿namespace Notes.Application.Dtos.Request
 {
-    public class NoteDto
+    public record NoteDto
     {
         public string Id { get; set; }
 
