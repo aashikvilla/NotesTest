@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\Response\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Notes.Domain\Notes.Domain\Notes.Domain.csproj" />
+    <ProjectReference Include="..\..\Notes.Infrastructure\Notes.Infrastructure\Notes.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
