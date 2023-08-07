@@ -1,15 +1,4 @@
-﻿
-using AutoFixture;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
-using MongoDB.Bson;
-using Notes.Application.Dtos.Request;
-using Notes.Constants;
-using Notes.IntegrationTests.Helpers;
-using System.Net;
-using System.Net.Http.Json;
-
-namespace Notes.IntegrationTests.Controllers
+﻿namespace Notes.IntegrationTests.Controllers
 {
     public class NoteControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {

@@ -16,11 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Constants\ApiConstants.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ApiConstants.resx</DependentUpon>
-    </Compile>
     <Compile Update="Constants\ConfigConstants.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -29,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Constants\ApiConstants.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ApiConstants.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Constants\ConfigConstants.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ConfigConstants.Designer.cs</LastGenOutput>

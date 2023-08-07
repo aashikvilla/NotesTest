@@ -1,1 +1,10 @@
+global using AutoFixture;
+global using FluentAssertions;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using MongoDB.Bson;
+global using Notes.Application.Dtos.Request;
+global using Notes.Constants;
+global using Notes.IntegrationTests.Helpers;
+global using System.Net;
+global using System.Net.Http.Json;
 global using Xunit;

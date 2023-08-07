@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Notes.Application.Dtos.Request;
-
-namespace Notes.Controllers
+﻿namespace Notes.Controllers
 {
-    [Route("api/[controller]")]
+    [Route($"{ApiConstants.Base}/[controller]")]
     [ApiController]
     public class NoteController : Controller
     {
-        [HttpPut("UpdateNote")]
+        [HttpPut(ApiConstants.UpdateNote)]
         public IActionResult UpdateNote(NoteDto noteDto)
         {
             throw new NotImplementedException();
