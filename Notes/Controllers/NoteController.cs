@@ -5,7 +5,7 @@
     public class NoteController : Controller
     {
         [HttpPut(ApiConstants.UpdateNote)]
-        public IActionResult UpdateNote(NoteDto noteDto)
+        public async Task<IActionResult> UpdateNoteAsync(NoteDto noteDto)
         {
             throw new NotImplementedException();
         }
