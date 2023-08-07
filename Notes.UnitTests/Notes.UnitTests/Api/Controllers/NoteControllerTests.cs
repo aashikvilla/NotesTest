@@ -1,14 +1,21 @@
-﻿namespace Notes.UnitTests.Api.Controllers
+﻿using Notes.Application.Services.Notes;
+using Notes.Application.Validators.Notes;
+
+namespace Notes.UnitTests.Api.Controllers
 {
     public class NoteControllerTests
     {
         private NoteController _noteController;
         private Fixture _fixture;
+        private Mock<INoteService> _noteServiceMock;
+        private readonly IValidator<NoteDto> _noteDtoValidator;
 
         public NoteControllerTests()
         {
-            _noteController = new NoteController();
             _fixture = new Fixture();
+            _noteServiceMock = new Mock<INoteService>();
+            _noteDtoValidator = new NoteDtoValidator();
+            _noteController = new NoteController(_noteServiceMock.Object, _noteDtoValidator);
         }
 
         [Fact]
@@ -19,11 +26,12 @@
                 .With(n => n.Id, ObjectId.GenerateNewId().ToString())
                 .With(n => n.UserId, ObjectId.GenerateNewId().ToString())
                 .Create();
-
+            _noteServiceMock.Setup(s => s.UpdateNoteAsync(note)).ReturnsAsync(note);
             // Act
             var result = await _noteController.UpdateNoteAsync(note);
 
             // Assert
+            _noteServiceMock.Verify(s => s.UpdateNoteAsync(note), Times.Once);
             result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeEquivalentTo(note);
         }
 
@@ -31,13 +39,13 @@
         public async Task UpdateNote_ShouldReturnBadRequest_WhenModelStateIsInValid()
         {
             // Arrange
-            var note = new NoteDto
-            {
-                Id = string.Empty
-            };
+            var note = new NoteDto();
+
             var expectedErrors = new string[]
             {
-                "Invalid Note Id"
+                string.Format(ResponseMessages.InvalidErrorMessage, nameof(NoteDto.Id)),
+                string.Format(ResponseMessages.InvalidErrorMessage, nameof(NoteDto.UserId)),
+                string.Format(ResponseMessages.RequiredErrorMessage, nameof(NoteDto.Title))
             };
 
             // Act

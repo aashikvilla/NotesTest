@@ -1,7 +1,10 @@
 global using AutoFixture;
 global using FluentAssertions;
+global using FluentValidation;
 global using Microsoft.AspNetCore.Mvc;
 global using MongoDB.Bson;
+global using Moq;
+global using Notes.Application.Common;
 global using Notes.Application.Dtos.Request;
 global using Notes.Controllers;
 global using Xunit;
