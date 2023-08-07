@@ -7,11 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\Response\" />
+    <PackageReference Include="MongoDB.Bson" Version="2.20.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Notes.Domain\Notes.Domain\Notes.Domain.csproj" />
     <ProjectReference Include="..\..\Notes.Infrastructure\Notes.Infrastructure\Notes.Infrastructure.csproj" />
   </ItemGroup>
 
