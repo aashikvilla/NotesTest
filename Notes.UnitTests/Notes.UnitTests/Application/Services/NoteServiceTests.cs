@@ -7,12 +7,20 @@ namespace Notes.UnitTests.Application.Services
         private readonly Mock<INoteRepository> _noteRepositoryMock;
         private readonly INoteService _noteService;
         private readonly Fixture _fixture;
+        private readonly IMapper _mapper;
 
         public NoteServiceTests()
         {
             _fixture = new Fixture();
             _noteRepositoryMock = new Mock<INoteRepository>();
-            _noteService = new NoteService();
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<NoteProfile>();
+            });
+            _mapper = config.CreateMapper();
+
+            _noteService = new NoteService(_noteRepositoryMock.Object, _mapper);
         }
 
         [Fact]
@@ -26,16 +34,19 @@ namespace Notes.UnitTests.Application.Services
                .With(n => n.Description, noteDto.Description)
                .With(n => n.Status, noteDto.Status)
                .With(n => n.Priority, noteDto.Priority)
+               .With(n => n.UserId, noteDto.UserId)
                .Create();
 
-            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(note.Id)).ReturnsAsync(note);
+            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(noteDto.Id)).ReturnsAsync(note);
+            _noteRepositoryMock.Setup(r => r.UpdateNoteAsync(It.IsAny<Note>())).Returns(Task.CompletedTask);
 
             // Act
             var result = await _noteService.UpdateNoteAsync(noteDto);
 
             // Assert
-            _noteRepositoryMock.Verify(r => r.UpdateNoteAsync(note), Times.Once);
-            result.Should().BeEquivalentTo(note);
+
+            _noteRepositoryMock.Verify(r => r.UpdateNoteAsync(It.Is<Note>(n => n.Id == noteDto.Id)), Times.Once);
+            result.Should().BeEquivalentTo(noteDto);
 
         }
 
@@ -62,10 +73,11 @@ namespace Notes.UnitTests.Application.Services
             // Arrange
             var noteDto = _fixture.Create<NoteDto>();
             var note = _fixture.Build<Note>()
+                .With(n => n.Id, noteDto.Id)
                .With(n => n.UserId, ObjectId.GenerateNewId().ToString())
                .Create();
 
-            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(note.Id)).ReturnsAsync(note);
+            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(noteDto.Id)).ReturnsAsync(note);
 
             // Act
             Func<Task> act = async () => await _noteService.UpdateNoteAsync(noteDto);
