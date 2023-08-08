@@ -7,4 +7,6 @@ global using Moq;
 global using Notes.Application.Common;
 global using Notes.Application.Dtos.Request;
 global using Notes.Controllers;
+global using Notes.Domain.Entities;
+global using Notes.Domain.RepositoryInterfaces;
 global using Xunit;

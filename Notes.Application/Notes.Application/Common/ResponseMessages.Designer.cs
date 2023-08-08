@@ -70,6 +70,24 @@ namespace Notes.Application.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is not allowed to update this note..
+        /// </summary>
+        public static string InvalidUserToUpdateNote {
+            get {
+                return ResourceManager.GetString("InvalidUserToUpdateNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note does not exist..
+        /// </summary>
+        public static string NoteNotFound {
+            get {
+                return ResourceManager.GetString("NoteNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is Required..
         /// </summary>
         public static string RequiredErrorMessage {

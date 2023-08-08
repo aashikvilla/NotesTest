@@ -120,6 +120,12 @@
   <data name="InvalidErrorMessage" xml:space="preserve">
     <value>{0} is Invalid.</value>
   </data>
+  <data name="InvalidUserToUpdateNote" xml:space="preserve">
+    <value>User is not allowed to update this note.</value>
+  </data>
+  <data name="NoteNotFound" xml:space="preserve">
+    <value>Note does not exist.</value>
+  </data>
   <data name="RequiredErrorMessage" xml:space="preserve">
     <value>{0} is Required.</value>
   </data>
