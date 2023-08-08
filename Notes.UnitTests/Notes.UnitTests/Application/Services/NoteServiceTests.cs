@@ -1,4 +1,8 @@
-﻿using Notes.Application.Services.Notes;
+﻿using Notes.Application.Dtos.Request;
+using Notes.Application.Profiles;
+using Notes.Application.Services.Notes;
+using Notes.Domain.Entities;
+using Notes.Domain.RepositoryInterfaces;
 
 namespace Notes.UnitTests.Application.Services
 {

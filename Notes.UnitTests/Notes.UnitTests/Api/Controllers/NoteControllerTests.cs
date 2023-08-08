@@ -1,5 +1,7 @@
-﻿using Notes.Application.Services.Notes;
+﻿using Notes.Application.Dtos.Request;
+using Notes.Application.Services.Notes;
 using Notes.Application.Validators.Notes;
+using Notes.Controllers;
 
 namespace Notes.UnitTests.Api.Controllers
 {
@@ -19,7 +21,7 @@ namespace Notes.UnitTests.Api.Controllers
         }
 
         [Fact]
-        public async Task UpdateNote_ShouldReturnUpdatedNote_WhenUpdateIsSuccessful()
+        public async Task UpdateNote_WhenUpdateIsSuccessful_ShouldReturnUpdatedNote()
         {
             // Arrange
             var note = _fixture.Build<NoteDto>()
@@ -36,7 +38,7 @@ namespace Notes.UnitTests.Api.Controllers
         }
 
         [Fact]
-        public async Task UpdateNote_ShouldReturnBadRequest_WhenModelStateIsInValid()
+        public async Task UpdateNote_WhenModelStateIsInValid_ShouldReturnBadRequest()
         {
             // Arrange
             var note = new NoteDto();
