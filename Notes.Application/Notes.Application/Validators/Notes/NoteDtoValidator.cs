@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MongoDB.Bson;
-using Notes.Application.Common;
 using Notes.Application.Dtos.Request;
 
 namespace Notes.Application.Validators.Notes
@@ -10,11 +9,17 @@ namespace Notes.Application.Validators.Notes
         public NoteDtoValidator()
         {
             RuleFor(x => x.Id)
-                .Must(IsValidObjectId).WithMessage(string.Format(ResponseMessages.InvalidErrorMessage, "{PropertyName}"));
+                .Must(IsValidObjectId).WithMessage(ValidationMessages.InvalidErrorMessage);
             RuleFor(x => x.Title)
-                .NotEmpty().WithMessage(string.Format(ResponseMessages.RequiredErrorMessage, "{PropertyName}"));
+                .NotEmpty().WithMessage(ValidationMessages.RequiredErrorMessage);
+            RuleFor(x => x.Description)
+                .NotEmpty().WithMessage(ValidationMessages.RequiredErrorMessage);
+            RuleFor(x => x.Status)
+                .NotEmpty().WithMessage(ValidationMessages.RequiredErrorMessage);
+            RuleFor(x => x.Priority)
+                .NotEmpty().WithMessage(ValidationMessages.RequiredErrorMessage);
             RuleFor(x => x.UserId)
-                .Must(IsValidObjectId).WithMessage(string.Format(ResponseMessages.InvalidErrorMessage, "{PropertyName}"))
+                .Must(IsValidObjectId).WithMessage(ValidationMessages.InvalidErrorMessage)
                 .WithName(nameof(NoteDto.UserId));
         }
         public bool IsValidObjectId(string id)

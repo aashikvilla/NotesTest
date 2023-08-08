@@ -45,7 +45,10 @@ namespace Notes.UnitTests.Api.Controllers
             {
                 string.Format(ResponseMessages.InvalidErrorMessage, nameof(NoteDto.Id)),
                 string.Format(ResponseMessages.InvalidErrorMessage, nameof(NoteDto.UserId)),
-                string.Format(ResponseMessages.RequiredErrorMessage, nameof(NoteDto.Title))
+                string.Format(ResponseMessages.RequiredErrorMessage, nameof(NoteDto.Title)),
+                string.Format(ResponseMessages.RequiredErrorMessage, nameof(NoteDto.Description)),
+                string.Format(ResponseMessages.RequiredErrorMessage, nameof(NoteDto.Priority)),
+                string.Format(ResponseMessages.RequiredErrorMessage, nameof(NoteDto.Status))
             };
 
             // Act
