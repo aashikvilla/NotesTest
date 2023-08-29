@@ -28,12 +28,12 @@ namespace Notes.UnitTests.Api.Controllers
                 .With(n => n.Id, ObjectId.GenerateNewId().ToString())
                 .With(n => n.UserId, ObjectId.GenerateNewId().ToString())
                 .Create();
-            _noteServiceMock.Setup(s => s.UpdateNoteAsync(note)).ReturnsAsync(note);
+            _noteServiceMock.Setup(s => s.UpdateAsync(note)).ReturnsAsync(note);
             // Act
             var result = await _noteController.UpdateNoteAsync(note);
 
             // Assert
-            _noteServiceMock.Verify(s => s.UpdateNoteAsync(note), Times.Once);
+            _noteServiceMock.Verify(s => s.UpdateAsync(note), Times.Once);
             result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeEquivalentTo(note);
         }
 

@@ -26,7 +26,7 @@ namespace Notes.Controllers
             {
                 return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
             }
-            return Ok(await _noteService.UpdateNoteAsync(noteDto));
+            return Ok(await _noteService.UpdateAsync(noteDto));
         }
     }
 }

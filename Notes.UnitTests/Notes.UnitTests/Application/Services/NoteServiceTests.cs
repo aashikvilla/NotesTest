@@ -28,7 +28,7 @@ namespace Notes.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task UpdateNoteAsync_WhenNoteIsUpdatedSuccessfully_ShouldReturnNote()
+        public async Task UpdateAsync_WhenNoteIsUpdatedSuccessfully_ShouldReturnNote()
         {
             // Arrange
             var noteDto = _fixture.Create<NoteDto>();
@@ -41,30 +41,30 @@ namespace Notes.UnitTests.Application.Services
                .With(n => n.UserId, noteDto.UserId)
                .Create();
 
-            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(noteDto.Id)).ReturnsAsync(note);
-            _noteRepositoryMock.Setup(r => r.UpdateNoteAsync(It.IsAny<Note>())).Returns(Task.CompletedTask);
+            _noteRepositoryMock.Setup(x => x.GetByIdAsync(noteDto.Id)).ReturnsAsync(note);
+            _noteRepositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Note>())).Returns(Task.CompletedTask);
 
             // Act
-            var result = await _noteService.UpdateNoteAsync(noteDto);
+            var result = await _noteService.UpdateAsync(noteDto);
 
             // Assert
 
-            _noteRepositoryMock.Verify(r => r.UpdateNoteAsync(It.Is<Note>(n => n.Id == noteDto.Id)), Times.Once);
+            _noteRepositoryMock.Verify(r => r.UpdateAsync(It.Is<Note>(n => n.Id == noteDto.Id)), Times.Once);
             result.Should().BeEquivalentTo(noteDto);
 
         }
 
         [Fact]
-        public async Task UpdateNoteAsync_WhenNoteDoesNotExist_ShouldThrowException()
+        public async Task UpdateAsync_WhenNoteDoesNotExist_ShouldThrowException()
         {
             // Arrange
             var noteDto = _fixture.Create<NoteDto>();
 
-            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(noteDto.Id))
+            _noteRepositoryMock.Setup(x => x.GetByIdAsync(noteDto.Id))
                 .ReturnsAsync((Note)null);
 
             // Act
-            Func<Task> act = async () => await _noteService.UpdateNoteAsync(noteDto);
+            Func<Task> act = async () => await _noteService.UpdateAsync(noteDto);
 
             // Assert
             await act.Should().ThrowAsync<InvalidOperationException>()
@@ -72,7 +72,7 @@ namespace Notes.UnitTests.Application.Services
         }
 
         [Fact]
-        public async Task UpdateNoteAsync_WithInvalidUserId_ShouldThrowException()
+        public async Task UpdateAsync_WithInvalidUserId_ShouldThrowException()
         {
             // Arrange
             var noteDto = _fixture.Create<NoteDto>();
@@ -81,10 +81,10 @@ namespace Notes.UnitTests.Application.Services
                .With(n => n.UserId, ObjectId.GenerateNewId().ToString())
                .Create();
 
-            _noteRepositoryMock.Setup(x => x.GetNoteByIdAsync(noteDto.Id)).ReturnsAsync(note);
+            _noteRepositoryMock.Setup(x => x.GetByIdAsync(noteDto.Id)).ReturnsAsync(note);
 
             // Act
-            Func<Task> act = async () => await _noteService.UpdateNoteAsync(noteDto);
+            Func<Task> act = async () => await _noteService.UpdateAsync(noteDto);
 
             // Assert
             await act.Should().ThrowAsync<InvalidOperationException>()

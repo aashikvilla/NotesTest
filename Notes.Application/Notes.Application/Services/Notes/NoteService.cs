@@ -17,9 +17,9 @@ namespace Notes.Application.Services.Notes
             _mapper = mapper;
         }
 
-        public async Task<NoteDto> UpdateNoteAsync(NoteDto noteDto)
+        public async Task<NoteDto> UpdateAsync(NoteDto noteDto)
         {
-            var existingNote = await _noteRepository.GetNoteByIdAsync(noteDto.Id);
+            var existingNote = await _noteRepository.GetByIdAsync(noteDto.Id);
             if (existingNote == null)
             {
                 throw new InvalidOperationException(ResponseMessages.NoteNotFound);
@@ -30,7 +30,7 @@ namespace Notes.Application.Services.Notes
             }
 
             var note = _mapper.Map<NoteDto, Note>(noteDto);
-            await _noteRepository.UpdateNoteAsync(note);
+            await _noteRepository.UpdateAsync(note);
 
             return noteDto;
         }

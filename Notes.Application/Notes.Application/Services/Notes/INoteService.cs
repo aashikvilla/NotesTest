@@ -4,6 +4,6 @@ namespace Notes.Application.Services.Notes
 {
     public interface INoteService
     {
-        Task<NoteDto> UpdateNoteAsync(NoteDto noteDto);
+        Task<NoteDto> UpdateAsync(NoteDto noteDto);
     }
 }
