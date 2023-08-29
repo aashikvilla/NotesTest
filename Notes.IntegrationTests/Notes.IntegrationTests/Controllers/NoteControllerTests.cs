@@ -1,10 +1,15 @@
-﻿namespace Notes.IntegrationTests.Controllers
+﻿using AutoMapper;
+using Notes.Application.Profiles;
+using Notes.Domain.Entities;
+
+namespace Notes.IntegrationTests.Controllers
 {
     public class NoteControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>
     {
         private readonly HttpClient _client;
         private readonly IFixture _fixture;
         private readonly CustomWebApplicationFactory<Program> _factory;
+        private readonly IMapper _mapper;
 
 
         public NoteControllerTests(CustomWebApplicationFactory<Program> factory)
@@ -15,6 +20,7 @@
                 AllowAutoRedirect = false
             });
             _fixture = new Fixture();
+            _mapper = new MapperConfiguration(cfg => cfg.AddProfile<NoteProfile>()).CreateMapper();
         }
 
 
@@ -39,7 +45,10 @@
             Utilities.ReinitializeDb(_factory);
             var note = Utilities.GetSeedingNotes().FirstOrDefault();
             var title = _fixture.Create<string>();
-            note.Title = title;
+            var noteDto = _mapper.Map<Note, NoteDto>(note, opt =>
+            {
+                opt.BeforeMap((src, dest) => src.Title = title);
+            });
 
 
             // Act
@@ -59,7 +68,10 @@
             // Arrange
             Utilities.ReinitializeDb(_factory);
             var note = Utilities.GetSeedingNotes().FirstOrDefault();
-            note.Id = BsonObjectId.GenerateNewId().ToString();
+            var noteDto = _mapper.Map<Note, NoteDto>(note, opt =>
+            {
+                opt.BeforeMap((src, dest) => src.Id = ObjectId.GenerateNewId().ToString());
+            });
 
             // Act
             var response = await _client.PutAsJsonAsync(ApiConstants.UpdateNoteEndpoint, note);

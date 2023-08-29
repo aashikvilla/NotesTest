@@ -1,13 +1,32 @@
-﻿namespace Notes.Controllers
+﻿using Notes.Application.Services.Notes;
+
+namespace Notes.Controllers
 {
-    [Route($"{ApiConstants.Base}/[controller]")]
+    [Route($"{ApiConstants.Base}/{ApiConstants.NoteController}")]
     [ApiController]
     public class NoteController : Controller
     {
-        [HttpPut(ApiConstants.UpdateNote)]
-        public IActionResult UpdateNote(NoteDto noteDto)
+        private readonly INoteService _noteService;
+        private readonly IValidator<NoteDto> _noteDtoValidator;
+
+
+        public NoteController(INoteService noteService, IValidator<NoteDto> noteDtoValidator)
         {
-            throw new NotImplementedException();
+            _noteService = noteService;
+            _noteDtoValidator = noteDtoValidator;
+        }
+
+
+        [HttpPut(ApiConstants.UpdateNote)]
+        public async Task<IActionResult> UpdateNoteAsync(NoteDto noteDto)
+        {
+            var validationResult = _noteDtoValidator.Validate(noteDto);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+            }
+            return Ok(await _noteService.UpdateAsync(noteDto));
         }
     }
 }

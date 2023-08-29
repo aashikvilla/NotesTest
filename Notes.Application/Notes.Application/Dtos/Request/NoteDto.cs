@@ -2,16 +2,16 @@
 {
     public record NoteDto
     {
-        public string Id { get; set; }
+        public string Id { get; init; }
 
-        public string Title { get; set; }
+        public string Title { get; init; }
 
-        public string Description { get; set; }
+        public string Description { get; init; }
 
-        public string Priority { get; set; }
+        public string Priority { get; init; }
 
-        public string Status { get; set; }
+        public string Status { get; init; }
 
-        public string UserId { get; set; }
+        public string UserId { get; init; }
     }
 }
