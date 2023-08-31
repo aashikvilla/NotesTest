@@ -1,4 +1,5 @@
-﻿using Notes.Application.Services.Notes;
+﻿using Notes.Application.Common;
+using Notes.Application.Services.Notes;
 
 namespace Notes.Controllers
 {
@@ -32,6 +33,10 @@ namespace Notes.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchNoteAsync([FromQuery] string searchTerm = "")
         {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return BadRequest(ResponseMessages.InvalidSearchTerm);
+            }
             return Ok(await _noteService.SearchAsync(searchTerm));
         }
     }

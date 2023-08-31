@@ -27,10 +27,6 @@ namespace Notes.Infrastructure.Repositories
 
         public async Task<List<Note>> SearchAsync(string searchTerm)
         {
-            if (searchTerm == string.Empty)
-            {
-                return await _notes.AsQueryable().ToListAsync();
-            }
             return await _notes.Aggregate()
                 .Search(Builders<Note>.Search.Text(w => w.Title, searchTerm))
                 .ToListAsync();
