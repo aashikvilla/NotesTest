@@ -1,9 +1,6 @@
-﻿using AutoFixture;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Bson;
 using MongoDB.Driver;
-using Notes.Constants;
 using Notes.Domain.Entities;
 using Notes.Infrastructure.Data;
 
@@ -23,8 +20,8 @@ namespace Notes.IntegrationTests.Helpers
         {
             try
             {
-                db.DropCollection(mongoDbSettings.NotesCollectionName);
                 var notes = db.GetCollection<Note>(mongoDbSettings.NotesCollectionName);
+                notes.DeleteMany(FilterDefinition<Note>.Empty);
                 notes.InsertMany(seedNotes);
             }
             catch (Exception ex)

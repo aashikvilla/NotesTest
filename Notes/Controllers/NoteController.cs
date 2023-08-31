@@ -28,5 +28,11 @@ namespace Notes.Controllers
             }
             return Ok(await _noteService.UpdateAsync(noteDto));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchNoteAsync([FromQuery] string searchTerm = "")
+        {
+            return Ok(await _noteService.SearchAsync(searchTerm));
+        }
     }
 }
