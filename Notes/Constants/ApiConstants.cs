@@ -6,6 +6,7 @@
         public const string UpdateNote = "UpdateNote";
         public const string NoteController = "Note";
         public const string UpdateNoteEndpoint = $"{Base}/{NoteController}/{UpdateNote}";
+        public const string SearchNoteEndpoint = $"{Base}/{NoteController}" + "?searchTerm={0}";
     }
 
 

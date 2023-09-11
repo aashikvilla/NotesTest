@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Notes.Application.Common;
 using Notes.Application.Profiles;
 using Notes.Domain.Entities;
 
@@ -78,6 +79,38 @@ namespace Notes.IntegrationTests.Controllers
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+
+        [Fact]
+        public async Task SearchNote_WithSearchTerm_ShouldReturnFilteredNotes()
+        {
+            // Arrange
+            Utilities.ReinitializeDb(_factory);
+            var searchTerm = Utilities.searchTerm;
+            var filteredNotes = Utilities.GetSeedingNotes().Where(n => n.Title.Contains(searchTerm)).ToList();
+            var expectedNotes = _mapper.Map<List<Note>, List<NoteDto>>(filteredNotes);
+
+
+            // Act
+            var response = await _client.GetAsync(string.Format(ApiConstants.SearchNoteEndpoint, searchTerm));
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            var notes = await response.Content.ReadFromJsonAsync<IEnumerable<NoteDto>>();
+            notes.Should().BeEquivalentTo(expectedNotes);
+        }
+
+        [Fact]
+        public async Task SearchNote_WithoutSearchTerm_ShouldReturnBadRequest()
+        {
+            // Act
+            var response = await _client.GetAsync(string.Format(ApiConstants.SearchNoteEndpoint, string.Empty));
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var message = await response.Content.ReadAsStringAsync();
+            message.Should().Contain(ResponseMessages.InvalidSearchTerm);
         }
     }
 }

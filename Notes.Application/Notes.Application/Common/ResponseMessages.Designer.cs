@@ -70,6 +70,15 @@ namespace Notes.Application.Common {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search term is invalid..
+        /// </summary>
+        public static string InvalidSearchTerm {
+            get {
+                return ResourceManager.GetString("InvalidSearchTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User is not allowed to update this note..
         /// </summary>
         public static string InvalidUserToUpdateNote {

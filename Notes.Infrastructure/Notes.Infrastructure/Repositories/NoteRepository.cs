@@ -24,5 +24,12 @@ namespace Notes.Infrastructure.Repositories
             var filter = Builders<Note>.Filter.Eq(n => n.Id, note.Id);
             await _notes.ReplaceOneAsync(filter, note);
         }
+
+        public async Task<List<Note>> SearchAsync(string searchTerm)
+        {
+            return await _notes.Aggregate()
+                .Search(Builders<Note>.Search.Text(w => w.Title, searchTerm))
+                .ToListAsync();
+        }
     }
 }

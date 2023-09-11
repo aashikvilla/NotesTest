@@ -91,5 +91,21 @@ namespace Notes.UnitTests.Application.Services
                 .WithMessage(ResponseMessages.InvalidUserToUpdateNote);
 
         }
+
+        [Fact]
+        public async Task SearchAsync_WhenSuccessful_ShouldReturnFilteredNotes()
+        {
+            // Arrange
+            var notes = _fixture.CreateMany<Note>().ToList();
+            var searchTerm = _fixture.Create<string>();
+
+            _noteRepositoryMock.Setup(s => s.SearchAsync(searchTerm)).ReturnsAsync(notes);
+            // Act
+            var result = await _noteService.SearchAsync(searchTerm);
+
+            // Assert
+            _noteRepositoryMock.Verify(s => s.SearchAsync(searchTerm), Times.Once);
+            result.Should().BeEquivalentTo(notes);
+        }
     }
 }

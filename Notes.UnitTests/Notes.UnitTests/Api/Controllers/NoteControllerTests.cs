@@ -61,5 +61,22 @@ namespace Notes.UnitTests.Api.Controllers
             var errors = (result as BadRequestObjectResult).Value as IEnumerable<string>;
             errors.Should().BeEquivalentTo(expectedErrors);
         }
+
+
+        [Fact]
+        public async Task SearchNote_WhenSuccessful_ShouldReturnFilteredNotes()
+        {
+            // Arrange
+            var notes = _fixture.CreateMany<NoteDto>().ToList();
+            var searchTerm = _fixture.Create<string>();
+
+            _noteServiceMock.Setup(s => s.SearchAsync(searchTerm)).ReturnsAsync(notes);
+            // Act
+            var result = await _noteController.SearchNoteAsync(searchTerm);
+
+            // Assert
+            _noteServiceMock.Verify(s => s.SearchAsync(searchTerm), Times.Once);
+            result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeEquivalentTo(notes);
+        }
     }
 }

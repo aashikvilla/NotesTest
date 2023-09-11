@@ -6,5 +6,6 @@ namespace Notes.Domain.RepositoryInterfaces
     {
         Task<Note> GetByIdAsync(string noteId);
         Task UpdateAsync(Note note);
+        Task<List<Note>> SearchAsync(string searchTerm);
     }
 }

@@ -34,5 +34,11 @@ namespace Notes.Application.Services.Notes
 
             return noteDto;
         }
+
+        public async Task<List<NoteDto>> SearchAsync(string searchTerm)
+        {
+            var notes = await _noteRepository.SearchAsync(searchTerm);
+            return _mapper.Map<List<Note>, List<NoteDto>>(notes);
+        }
     }
 }
